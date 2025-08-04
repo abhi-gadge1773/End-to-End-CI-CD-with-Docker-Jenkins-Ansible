@@ -10,8 +10,8 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/abhi-gadge1773/End-to-End-CI-CD-with-Docker-Jenkins-Ansible.git'
-            }
+		    git branch: 'main', url: 'https://github.com/abhi-gadge1773/End-to-End-CI-CD-with-Docker-Jenkins-Ansible.git'        
+    		}
         }
 
         stage('Build Docker Image') {
