@@ -12,9 +12,6 @@ This project automates continuous integration and deployment of a Python Flask a
 * **Docker Hub**: image registry for built app images
 * **Ansible**: automates deployment to remote servers using the Docker images
 * **Ubuntu / CentOS EC2 instances** (or self-hosted Linux servers): serve as Jenkins and application hosts
-
-This pipeline ensures that once code is pushed to GitHub, Jenkins automatically builds, pushes, and deploys the app without manual intervention. ([github.com][1], [github.com][2], [github.com][3], [github.com][4])
-
 ---
 
 ## 📁 Repository Structure
