@@ -5,8 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY app.py app.py
+COPY . .
 
-EXPOSE 90
+EXPOSE 80
 
 CMD ["python", "app.py"]

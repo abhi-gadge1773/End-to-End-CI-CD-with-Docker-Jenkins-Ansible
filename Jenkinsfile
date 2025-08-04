@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_USER = "abhi2404i"
+        DOCKER_HUB_USER = "abhi2404"
 	IMAGE_NAME = "devops-project5"
         IMAGE_TAG = "latest"
     }
