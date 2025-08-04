@@ -1,63 +1,44 @@
 pipeline {
     agent any
 
-    options {
-        timestamps()
-        timeout(time: 30, unit: 'MINUTES')
-    }
-
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        IMAGE_NAME = "abhi2404/ci-cd-flask-app"
-        TAG = "${BUILD_NUMBER}"
+        IMAGE_NAME = "abcd"
+        DOCKER_HUB_USER = "dipakrasal2009"
+        IMAGE_TAG = "latest"
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Clone') {
             steps {
-                git credentialsId: 'github-ssh-key', url: 'git@github.com:abhi-gadge1773/End-to-End-CI-CD-with-Docker-Jenkins-Ansible.git'
+                git 'https://github.com/dipakrasal2009/DevOps-Projects.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$TAG .'
+                script {
+                    sh "docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG ."
+                }
             }
         }
 
-        stage('Login to DockerHub') {
+        stage('Push Image to Docker Hub') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                script {
+                    sh "docker push $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG"
+                }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Run Ansible') {
             steps {
-                sh '''
-                    docker push $IMAGE_NAME:$TAG
-                    docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
-                    docker push $IMAGE_NAME:latest
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "✅ Build and push successful: $IMAGE_NAME:$TAG"
-        }
-
-        failure {
-            echo "❌ Build failed. Check Jenkins logs for details."
-        }
-
-        cleanup {
-            script {
-                echo "🧹 Cleaning up local Docker images"
-                sh '''
-                    docker rmi $IMAGE_NAME:$TAG || true
-                    docker rmi $IMAGE_NAME:latest || true
-                '''
+                script {
+                    sh '''
+                        export LC_ALL=en_US.UTF-8
+                        export LANG=en_US.UTF-8
+                        ansible-playbook -i inventory.ini ansible/deploy.yml
+                    '''
+                }
             }
         }
     }
