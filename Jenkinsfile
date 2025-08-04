@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "abcd"
-        DOCKER_HUB_USER = "dipakrasal2009"
+        DOCKER_HUB_USER = "abhi2404i"
+	IMAGE_NAME = "devops-project5"
         IMAGE_TAG = "latest"
     }
 
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/dipakrasal2009/DevOps-Projects.git'
+                git 'https://github.com/abhi-gadge1773/End-to-End-CI-CD-with-Docker-Jenkins-Ansible.git'
             }
         }
 
