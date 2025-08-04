@@ -10,7 +10,7 @@
     - name: Run new container
       docker_container:
         name: myapp
-        image: dipakrasal2009/abcd:latest
+        image: abhi2404/devops-project5
         state: started
         ports:
-          - "65:80"
+          - "80:80"
